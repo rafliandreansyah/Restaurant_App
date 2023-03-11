@@ -11,7 +11,7 @@ import '../data/restaurant.dart';
 class RestaurantsScreen extends StatefulWidget {
   const RestaurantsScreen({Key? key}) : super(key: key);
 
-  static final String routeName = '/restaurants';
+  static const String routeName = '/restaurants';
 
   @override
   State<RestaurantsScreen> createState() => _RestaurantsScreenState();
