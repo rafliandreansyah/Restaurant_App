@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/screen/restaurant_detail_screen.dart';
 import 'package:restaurant_app/screen/restaurants_screen.dart';
+import 'package:restaurant_app/style/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Restaurant App',
       theme: ThemeData(
+        textTheme: textTheme,
         primarySwatch: Colors.blue,
       ),
       initialRoute: RestaurantsScreen.routeName,

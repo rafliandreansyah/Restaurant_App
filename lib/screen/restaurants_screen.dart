@@ -48,11 +48,21 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Restaurant'),
-                    const SizedBox(
-                      height: 8,
+                    Text(
+                      'Restaurant',
+                      style: Theme.of(context).textTheme.headline4!.copyWith(
+                            color: Colors.black87,
+                          ),
                     ),
-                    const Text('Recommendation restaurant for you!'),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      'Recommendation restaurant for you!',
+                      style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                            color: Colors.grey,
+                          ),
+                    ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -62,7 +72,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                       itemCount: dataRestaurant.length,
                       itemBuilder: (context, index) {
                         return SizedBox(
-                          height: 280,
+                          height: 300,
                           child: Card(
                             elevation: 4,
                             margin: const EdgeInsets.symmetric(vertical: 8),
@@ -72,13 +82,13 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
+                                SizedBox(
                                   width: double.infinity,
                                   height: 150,
                                   child: ClipRRect(
                                     borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(16),
-                                      topRight: Radius.circular(16),
+                                      topLeft: Radius.circular(21),
+                                      topRight: Radius.circular(21),
                                     ),
                                     child: Image.network(
                                       dataRestaurant[index].pictureId ?? '',
@@ -95,7 +105,13 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(dataRestaurant[index].name ?? ''),
+                                      Text(
+                                        dataRestaurant[index].name ?? '',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6,
+                                        maxLines: 2,
+                                      ),
                                       const SizedBox(
                                         height: 8,
                                       ),
@@ -103,12 +119,18 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.end,
                                         children: [
-                                          const Icon(Icons.location_city),
+                                          const Icon(
+                                            Icons.location_city,
+                                          ),
                                           const SizedBox(
                                             width: 8,
                                           ),
                                           Text(
-                                              dataRestaurant[index].city ?? ''),
+                                            dataRestaurant[index].city ?? '',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle2,
+                                          ),
                                         ],
                                       )
                                     ],
