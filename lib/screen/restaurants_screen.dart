@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:restaurant_app/data/restaurant_response.dart';
 import 'package:restaurant_app/screen/restaurant_detail_screen.dart';
+import 'package:restaurant_app/style/theme.dart';
 
 import '../data/restaurant.dart';
 
@@ -133,6 +134,30 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                                             ),
                                             Text(
                                               dataRestaurant[index].city ?? '',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle2,
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            const Icon(
+                                              Icons.star,
+                                              color: colorYellow,
+                                            ),
+                                            const SizedBox(
+                                              width: 8,
+                                            ),
+                                            Text(
+                                              dataRestaurant[index]
+                                                  .rating
+                                                  .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .subtitle2,
