@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:restaurant_app/data/restaurant_response.dart';
-import 'package:restaurant_app/utils/parse_data.dart';
+import 'package:restaurant_app/screen/restaurant_detail_screen.dart';
 
 import '../data/restaurant.dart';
 
@@ -40,7 +40,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
           return SafeArea(
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   left: 20,
                   right: 20,
                   top: 25,
@@ -71,72 +71,79 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                       shrinkWrap: true,
                       itemCount: dataRestaurant.length,
                       itemBuilder: (context, index) {
-                        return SizedBox(
-                          height: 300,
-                          child: Card(
-                            elevation: 4,
-                            margin: const EdgeInsets.symmetric(vertical: 8),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: 150,
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(21),
-                                      topRight: Radius.circular(21),
-                                    ),
-                                    child: Image.network(
-                                      dataRestaurant[index].pictureId ?? '',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 16,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        dataRestaurant[index].name ?? '',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline6,
-                                        maxLines: 2,
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, RestaurantDetailScreen.routeName,
+                                arguments: dataRestaurant[index]);
+                          },
+                          child: SizedBox(
+                            height: 300,
+                            child: Card(
+                              elevation: 4,
+                              margin: const EdgeInsets.symmetric(vertical: 8),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: double.infinity,
+                                    height: 150,
+                                    child: ClipRRect(
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(21),
+                                        topRight: Radius.circular(21),
                                       ),
-                                      const SizedBox(
-                                        height: 8,
+                                      child: Image.network(
+                                        dataRestaurant[index].pictureId ?? '',
+                                        fit: BoxFit.cover,
                                       ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          const Icon(
-                                            Icons.location_city,
-                                          ),
-                                          const SizedBox(
-                                            width: 8,
-                                          ),
-                                          Text(
-                                            dataRestaurant[index].city ?? '',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle2,
-                                          ),
-                                        ],
-                                      )
-                                    ],
+                                    ),
                                   ),
-                                )
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 16,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          dataRestaurant[index].name ?? '',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6,
+                                          maxLines: 2,
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            const Icon(
+                                              Icons.location_city,
+                                            ),
+                                            const SizedBox(
+                                              width: 8,
+                                            ),
+                                            Text(
+                                              dataRestaurant[index].city ?? '',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle2,
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         );
