@@ -21,11 +21,8 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
   Future<List<Restaurant>> getRestaurants() async {
     final data =
         await rootBundle.loadString('assets/data/data_restaurant.json');
-    //print(data);
     var jsonData = json.decode(data);
-    //print(jsonData);
     final body = Restaurants.fromJson(jsonData);
-    print(body.restaurants);
 
     return body.restaurants as List<Restaurant>;
   }
