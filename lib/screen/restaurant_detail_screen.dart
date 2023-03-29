@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
+import 'package:restaurant_app/widget/rating.dart';
 
 import '../data/model/restaurant_detail.dart';
 import '../style/theme.dart';
@@ -20,9 +21,9 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     List<String> allMenus = [];
 
     var foods =
-        restaurant.menus?.foods?.map((food) => 'Makanan:\n\n${food.name}');
+        restaurant.menus?.foods.map((food) => 'Makanan:\n\n${food.name}');
     var drinks =
-        restaurant.menus?.drinks?.map((drink) => 'Minuman:\n\n${drink.name}');
+        restaurant.menus?.drinks.map((drink) => 'Minuman:\n\n${drink.name}');
     allMenus.addAll(foods!);
     allMenus.addAll(drinks!);
 
@@ -118,26 +119,8 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                             const SizedBox(
                               height: 8,
                             ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                const Icon(
-                                  Icons.star,
-                                  color: colorYellow,
-                                ),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                Text(
-                                  state.restaurantDetail.rating.toString(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2
-                                      ?.copyWith(
-                                        color: colorGrey,
-                                      ),
-                                ),
-                              ],
+                            Rating(
+                              rating: state.restaurantDetail.rating,
                             ),
                             const SizedBox(
                               height: 30,

@@ -4,6 +4,7 @@ import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/screen/restaurant_detail_screen.dart';
 import 'package:restaurant_app/screen/restaurants_screen.dart';
+import 'package:restaurant_app/screen/search_screen.dart';
 import 'package:restaurant_app/style/theme.dart';
 
 void main() {
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         RestaurantsScreen.routeName: (context) => const RestaurantsScreen(),
         RestaurantDetailScreen.routeName: (context) =>
             const RestaurantDetailScreen(),
+        SearchScreen.routeName: (context) => const SearchScreen(),
       },
     );
   }

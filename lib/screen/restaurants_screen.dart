@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/screen/restaurant_detail_screen.dart';
+import 'package:restaurant_app/screen/search_screen.dart';
 import 'package:restaurant_app/widget/restaurant_card.dart';
 
 class RestaurantsScreen extends StatefulWidget {
@@ -45,6 +46,18 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            IconButton(
+                              onPressed: () => Navigator.of(context).pushNamed(
+                                SearchScreen.routeName,
+                              ),
+                              icon: const Icon(Icons.search),
+                            ),
+                          ],
+                        ),
                         Text(
                           'Restaurant',
                           style:
