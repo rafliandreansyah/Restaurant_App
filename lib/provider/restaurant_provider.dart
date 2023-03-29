@@ -1,7 +1,4 @@
-import 'dart:js_util';
-
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/model/restaurant_detail.dart';
 
@@ -23,6 +20,8 @@ class RestaurantProvider extends ChangeNotifier {
   ResultState get resultState => _resultState;
 
   String get message => _message;
+
+  RestaurantDetail get restaurantDetail => _restaurantDetail;
 
   Future<void> getListRestaurant() async {
     try {

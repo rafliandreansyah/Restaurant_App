@@ -75,7 +75,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                               onClick: () => Navigator.pushNamed(
                                 context,
                                 RestaurantDetailScreen.routeName,
-                                arguments: state.listRestaurant,
+                                arguments: state.listRestaurant[index],
                               ),
                             );
                           },
