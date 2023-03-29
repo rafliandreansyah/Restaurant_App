@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/data/restaurant.dart';
 
+import '../data/model/restaurant_detail.dart';
 import '../style/theme.dart';
 
 class RestaurantDetailScreen extends StatefulWidget {
@@ -13,7 +13,7 @@ class RestaurantDetailScreen extends StatefulWidget {
 }
 
 class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
-  Widget listMenu(Restaurant restaurant) {
+  Widget listMenu(RestaurantDetail restaurant) {
     List<String> allMenus = [];
 
     var foods =
@@ -48,7 +48,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final dataRestaurant =
-        ModalRoute.of(context)!.settings.arguments as Restaurant;
+        ModalRoute.of(context)!.settings.arguments as RestaurantDetail;
     return Scaffold(
       body: ScrollConfiguration(
         behavior: const ScrollBehavior().copyWith(overscroll: false),
