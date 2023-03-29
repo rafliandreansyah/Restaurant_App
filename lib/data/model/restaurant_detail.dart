@@ -50,10 +50,10 @@ class RestaurantDetail {
         "city": city,
         "address": address,
         "pictureId": pictureId,
-        "categories": List<dynamic>.from(categories!.map((x) => x.toJson())),
+        "categories": List<Category>.from(categories!.map((x) => x.toJson())),
         "menus": menus?.toJson(),
         "rating": rating,
         "customerReviews":
-            List<dynamic>.from(customerReviews!.map((x) => x.toJson())),
+            List<CustomerReview>.from(customerReviews!.map((x) => x.toJson())),
       };
 }

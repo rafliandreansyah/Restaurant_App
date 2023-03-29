@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
@@ -10,6 +12,7 @@ enum ResultState { loading, success, error, noData }
 class RestaurantProvider extends ChangeNotifier {
   final ApiService apiService;
   late List<Restaurant> _listRestaurant;
+  late RestaurantDetail _restaurantDetail;
   late ResultState _resultState;
   String _message = '';
 
@@ -36,6 +39,22 @@ class RestaurantProvider extends ChangeNotifier {
         _listRestaurant = response.restaurants;
         notifyListeners();
       }
+    } catch (e) {
+      _resultState = ResultState.error;
+      _message = e.toString();
+      notifyListeners();
+    }
+  }
+
+  Future<void> getDetailRestaurant(String id) async {
+    try {
+      _resultState = ResultState.loading;
+      notifyListeners();
+
+      var response = await apiService.getDetailRestaurant(id);
+      _resultState = ResultState.success;
+      _restaurantDetail = response.restaurant;
+      notifyListeners();
     } catch (e) {
       _resultState = ResultState.error;
       _message = e.toString();
