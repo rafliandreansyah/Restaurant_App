@@ -9,6 +9,7 @@ enum ResultState { loading, success, error, noData }
 class RestaurantProvider extends ChangeNotifier {
   final ApiService apiService;
   late List<Restaurant> _listRestaurant;
+  List<Restaurant> _searchRestaurant = [];
   late RestaurantDetail _restaurantDetail;
   late ResultState _resultState;
   String _message = '';
@@ -16,6 +17,8 @@ class RestaurantProvider extends ChangeNotifier {
   RestaurantProvider(this.apiService);
 
   List<Restaurant> get listRestaurant => _listRestaurant;
+
+  List<Restaurant> get searchRestaurantData => _searchRestaurant;
 
   ResultState get resultState => _resultState;
 
@@ -54,6 +57,28 @@ class RestaurantProvider extends ChangeNotifier {
       _resultState = ResultState.success;
       _restaurantDetail = response.restaurant;
       notifyListeners();
+    } catch (e) {
+      _resultState = ResultState.error;
+      _message = e.toString();
+      notifyListeners();
+    }
+  }
+
+  Future<void> searchRestaurant(String query) async {
+    try {
+      _resultState = ResultState.loading;
+      notifyListeners();
+
+      var response = await apiService.searchRestaurant(query);
+      if (response.restaurants.isEmpty) {
+        _resultState = ResultState.noData;
+        _message = 'Data is empty!';
+        notifyListeners();
+      } else {
+        _resultState = ResultState.success;
+        _searchRestaurant = response.restaurants;
+        notifyListeners();
+      }
     } catch (e) {
       _resultState = ResultState.error;
       _message = e.toString();
