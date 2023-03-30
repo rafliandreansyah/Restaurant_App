@@ -13,11 +13,19 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   bool isSearch = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<RestaurantProvider>().searchRestaurant('');
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
           padding: const EdgeInsets.only(top: 20, right: 16, left: 16),
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -26,10 +34,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 width: double.infinity,
                 child: Text(
                   'Search',
-                  style:
-                  Theme.of(context).textTheme.headline4!.copyWith(
-                    color: Colors.black87,
-                  ),
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
+                        color: Colors.black87,
+                      ),
                 ),
               ),
               const SizedBox(
@@ -39,7 +46,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 height: 55,
                 margin: const EdgeInsets.only(top: 8, bottom: 16),
                 child: TextField(
-                  onSubmitted: (text) {
+                  onChanged: (text) {
                     context.read<RestaurantProvider>().searchRestaurant(text);
                   },
                   textInputAction: TextInputAction.search,
@@ -55,32 +62,39 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
               ),
-              Expanded(child: Consumer<RestaurantProvider>(builder: (ctx, state, _){
-                if(state.resultState == ResultState.error) {
-                  return Center(
-                    child: Text('Error: ${state.message}'),
-                  );
-                } else if (state.resultState == ResultState.noData) {
-                  return const Center(
-                    child: Text('Data is empty!'),
-                  );
-                } else if (state.resultState == ResultState.success) {
-                  return ListView.builder(
-                      itemCount: state.searchRestaurantData.length,
-                      itemBuilder: (ctx, index) {
-                        return RestaurantCard(restaurant: state.searchRestaurantData[index], onClick: (){});
-                      },
-                  );
-                } else if (state.resultState == ResultState.loading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  return const Center(
-                    child: Text('Search your resto...'),
-                  );
-                }
-              },),),
+              Expanded(
+                child: Consumer<RestaurantProvider>(
+                  builder: (ctx, state, _) {
+                    print(state.resultStateSearch);
+                    if (state.resultStateSearch == ResultState.error) {
+                      return Center(
+                        child: Text('Error: ${state.message}'),
+                      );
+                    } else if (state.resultStateSearch == ResultState.noData) {
+                      return Center(
+                        child: Text(state.message),
+                      );
+                    } else if (state.resultStateSearch == ResultState.success) {
+                      return ListView.builder(
+                        itemCount: state.searchRestaurantData.length,
+                        itemBuilder: (ctx, index) {
+                          return RestaurantCard(
+                              restaurant: state.searchRestaurantData[index],
+                              onClick: () {});
+                        },
+                      );
+                    } else if (state.resultStateSearch == ResultState.loading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      return const Center(
+                        child: Text('Search your resto...'),
+                      );
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),

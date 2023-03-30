@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
+import 'package:restaurant_app/widget/menu_card.dart';
 import 'package:restaurant_app/widget/rating.dart';
 
 import '../data/model/restaurant_detail.dart';
@@ -17,38 +18,6 @@ class RestaurantDetailScreen extends StatefulWidget {
 }
 
 class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
-  Widget listMenu(RestaurantDetail restaurant) {
-    List<String> allMenus = [];
-
-    var foods =
-        restaurant.menus?.foods.map((food) => 'Makanan:\n\n${food.name}');
-    var drinks =
-        restaurant.menus?.drinks.map((drink) => 'Minuman:\n\n${drink.name}');
-    allMenus.addAll(foods!);
-    allMenus.addAll(drinks!);
-
-    return ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: allMenus.length,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: const EdgeInsets.only(right: 8),
-            padding: const EdgeInsets.all(10),
-            width: 100,
-            height: 150,
-            decoration: BoxDecoration(
-              color: colorLightGrey,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Text(
-              allMenus[index],
-              style: Theme.of(context).textTheme.bodyText2,
-            ),
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     final dataRestaurant =
@@ -62,14 +31,16 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
               .getDetailRestaurant(dataRestaurant.id),
           builder: (ctx, snapshot) {
             return Consumer<RestaurantProvider>(builder: (ctx, state, _) {
-              if (state.resultState == ResultState.error) {
+              if (state.resultStateDetailRestaurant == ResultState.error) {
                 return Center(
                   child: Text(state.message),
                 );
-              } else if (state.resultState == ResultState.success) {
+              } else if (state.resultStateDetailRestaurant ==
+                  ResultState.success) {
                 return SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
                     children: [
                       SizedBox(
                         height: 300,
@@ -143,13 +114,17 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                               'Menu',
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
-                            Container(
+                            SizedBox(
                               width: double.infinity,
-                              height: 130,
-                              child: listMenu(state.restaurantDetail),
+                              height: 150,
+                              child:
+                                  MenuCard(menus: state.restaurantDetail.menus),
+                            ),
+                            const SizedBox(
+                              height: 50,
                             ),
                           ],
                         ),

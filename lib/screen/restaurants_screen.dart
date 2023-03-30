@@ -23,19 +23,21 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
         builder: (context, snapshot) {
           return SafeArea(
             child: Consumer<RestaurantProvider>(builder: (ctx, state, _) {
-              if (state.resultState == ResultState.loading) {
+              if (state.resultStateListRestaurant == ResultState.loading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
-              } else if (state.resultState == ResultState.noData) {
+              } else if (state.resultStateListRestaurant ==
+                  ResultState.noData) {
                 return const Center(
                   child: Text('List Restaurant is Empty'),
                 );
-              } else if (state.resultState == ResultState.error) {
+              } else if (state.resultStateListRestaurant == ResultState.error) {
                 return Center(
                   child: Text('Error :${state.message}'),
                 );
-              } else if (state.resultState == ResultState.success) {
+              } else if (state.resultStateListRestaurant ==
+                  ResultState.success) {
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.only(

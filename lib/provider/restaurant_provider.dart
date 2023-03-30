@@ -11,7 +11,9 @@ class RestaurantProvider extends ChangeNotifier {
   late List<Restaurant> _listRestaurant;
   List<Restaurant> _searchRestaurant = [];
   late RestaurantDetail _restaurantDetail;
-  late ResultState _resultState;
+  late ResultState _resultStateListRestaurant;
+  late ResultState _resultStateSearch;
+  late ResultState _resultStateDetailRestaurant;
   String _message = '';
 
   RestaurantProvider(this.apiService);
@@ -20,7 +22,9 @@ class RestaurantProvider extends ChangeNotifier {
 
   List<Restaurant> get searchRestaurantData => _searchRestaurant;
 
-  ResultState get resultState => _resultState;
+  ResultState get resultStateListRestaurant => _resultStateListRestaurant;
+  ResultState get resultStateSearch => _resultStateSearch;
+  ResultState get resultStateDetailRestaurant => _resultStateDetailRestaurant;
 
   String get message => _message;
 
@@ -28,21 +32,21 @@ class RestaurantProvider extends ChangeNotifier {
 
   Future<void> getListRestaurant() async {
     try {
-      _resultState = ResultState.loading;
+      _resultStateListRestaurant = ResultState.loading;
       notifyListeners();
 
       var response = await apiService.getListRestaurant();
       if (response.restaurants.isEmpty) {
-        _resultState = ResultState.noData;
+        _resultStateListRestaurant = ResultState.noData;
         _message = 'Data is empty!';
         notifyListeners();
       } else {
-        _resultState = ResultState.success;
+        _resultStateListRestaurant = ResultState.success;
         _listRestaurant = response.restaurants;
         notifyListeners();
       }
     } catch (e) {
-      _resultState = ResultState.error;
+      _resultStateListRestaurant = ResultState.error;
       _message = e.toString();
       notifyListeners();
     }
@@ -50,15 +54,15 @@ class RestaurantProvider extends ChangeNotifier {
 
   Future<void> getDetailRestaurant(String id) async {
     try {
-      _resultState = ResultState.loading;
+      _resultStateDetailRestaurant = ResultState.loading;
       notifyListeners();
 
       var response = await apiService.getDetailRestaurant(id);
-      _resultState = ResultState.success;
+      _resultStateDetailRestaurant = ResultState.success;
       _restaurantDetail = response.restaurant;
       notifyListeners();
     } catch (e) {
-      _resultState = ResultState.error;
+      _resultStateDetailRestaurant = ResultState.error;
       _message = e.toString();
       notifyListeners();
     }
@@ -66,21 +70,29 @@ class RestaurantProvider extends ChangeNotifier {
 
   Future<void> searchRestaurant(String query) async {
     try {
-      _resultState = ResultState.loading;
+      _searchRestaurant.clear();
+      _resultStateSearch = ResultState.loading;
       notifyListeners();
 
       var response = await apiService.searchRestaurant(query);
-      if (response.restaurants.isEmpty) {
-        _resultState = ResultState.noData;
-        _message = 'Data is empty!';
+
+      if (query.isEmpty) {
+        _resultStateSearch = ResultState.noData;
+        _message = 'Write down the restaurant you want to find...';
         notifyListeners();
       } else {
-        _resultState = ResultState.success;
-        _searchRestaurant = response.restaurants;
-        notifyListeners();
+        if (response.restaurants.isEmpty) {
+          _resultStateSearch = ResultState.noData;
+          _message = 'Data is empty!';
+          notifyListeners();
+        } else {
+          _resultStateSearch = ResultState.success;
+          _searchRestaurant = response.restaurants;
+          notifyListeners();
+        }
       }
     } catch (e) {
-      _resultState = ResultState.error;
+      _resultStateSearch = ResultState.error;
       _message = e.toString();
       notifyListeners();
     }
