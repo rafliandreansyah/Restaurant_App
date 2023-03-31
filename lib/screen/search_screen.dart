@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
+import 'package:restaurant_app/screen/restaurant_detail_screen.dart';
 import 'package:restaurant_app/widget/restaurant_card.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -80,7 +81,13 @@ class _SearchScreenState extends State<SearchScreen> {
                         itemBuilder: (ctx, index) {
                           return RestaurantCard(
                               restaurant: state.searchRestaurantData[index],
-                              onClick: () {});
+                              onClick: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  RestaurantDetailScreen.routeName,
+                                  arguments: state.listRestaurant[index],
+                                );
+                              });
                         },
                       );
                     } else if (state.resultStateSearch == ResultState.loading) {
