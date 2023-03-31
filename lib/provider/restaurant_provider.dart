@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/model/restaurant_detail.dart';
 
@@ -13,9 +14,9 @@ class RestaurantProvider extends ChangeNotifier {
   late List<Restaurant> _listRestaurant;
   List<Restaurant> _searchRestaurant = [];
   late RestaurantDetail _restaurantDetail;
-  late ResultState _resultStateListRestaurant;
-  late ResultState _resultStateSearch;
-  late ResultState _resultStateDetailRestaurant;
+  ResultState _resultStateListRestaurant = ResultState.loading;
+  ResultState _resultStateSearch = ResultState.loading;
+  ResultState _resultStateDetailRestaurant = ResultState.loading;
   String _message = '';
 
   RestaurantProvider(this.apiService);
@@ -25,7 +26,9 @@ class RestaurantProvider extends ChangeNotifier {
   List<Restaurant> get searchRestaurantData => _searchRestaurant;
 
   ResultState get resultStateListRestaurant => _resultStateListRestaurant;
+
   ResultState get resultStateSearch => _resultStateSearch;
+
   ResultState get resultStateDetailRestaurant => _resultStateDetailRestaurant;
 
   String get message => _message;
@@ -34,81 +37,87 @@ class RestaurantProvider extends ChangeNotifier {
 
   Future<void> getListRestaurant() async {
     try {
-      _resultStateListRestaurant = ResultState.loading;
-      notifyListeners();
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        _resultStateListRestaurant = ResultState.loading;
+        notifyListeners();
+      });
 
       var response = await apiService.getListRestaurant();
       if (response.restaurants.isEmpty) {
         _resultStateListRestaurant = ResultState.noData;
         _message = 'Data is empty!';
-        notifyListeners();
       } else {
         _resultStateListRestaurant = ResultState.success;
         _listRestaurant = response.restaurants;
-        notifyListeners();
       }
-    } on SocketException catch(e) {
+    } on SocketException catch (e) {
       _resultStateListRestaurant = ResultState.error;
       _message = 'Please check your connection...';
-      notifyListeners();
     } catch (e) {
       _resultStateListRestaurant = ResultState.error;
       _message = e.toString();
-      notifyListeners();
     }
+
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      notifyListeners();
+    });
   }
 
   Future<void> getDetailRestaurant(String id) async {
     try {
-      _resultStateDetailRestaurant = ResultState.loading;
-      notifyListeners();
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        _resultStateDetailRestaurant = ResultState.loading;
+        notifyListeners();
+      });
 
       var response = await apiService.getDetailRestaurant(id);
       _resultStateDetailRestaurant = ResultState.success;
       _restaurantDetail = response.restaurant;
-      notifyListeners();
-    } on SocketException catch(e) {
+    } on SocketException catch (e) {
       _resultStateDetailRestaurant = ResultState.error;
       _message = 'Please check your connection...';
-      notifyListeners();
     } catch (e) {
       _resultStateDetailRestaurant = ResultState.error;
       _message = e.toString();
-      notifyListeners();
     }
+
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      notifyListeners();
+    });
   }
 
   Future<void> searchRestaurant(String query) async {
     try {
       _searchRestaurant.clear();
-      _resultStateSearch = ResultState.loading;
-      notifyListeners();
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        _resultStateSearch = ResultState.loading;
+        notifyListeners();
+      });
 
       var response = await apiService.searchRestaurant(query);
 
       if (query.isEmpty) {
         _resultStateSearch = ResultState.noData;
         _message = 'Write down the restaurant you want to find...';
-        notifyListeners();
       } else {
         if (response.restaurants.isEmpty) {
           _resultStateSearch = ResultState.noData;
           _message = 'Data is empty!';
-          notifyListeners();
         } else {
           _resultStateSearch = ResultState.success;
           _searchRestaurant = response.restaurants;
-          notifyListeners();
         }
       }
-    } on SocketException catch(e) {
+    } on SocketException catch (e) {
       _resultStateSearch = ResultState.error;
       _message = 'Please check your connection...';
-      notifyListeners();
     } catch (e) {
       _resultStateSearch = ResultState.error;
       _message = e.toString();
-      notifyListeners();
     }
+
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      notifyListeners();
+    });
   }
 }
