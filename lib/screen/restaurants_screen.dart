@@ -34,7 +34,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                 );
               } else if (state.resultStateListRestaurant == ResultState.error) {
                 return Center(
-                  child: Text('Error :${state.message}'),
+                  child: Text(state.message),
                 );
               } else if (state.resultStateListRestaurant ==
                   ResultState.success) {

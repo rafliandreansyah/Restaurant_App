@@ -69,7 +69,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     print(state.resultStateSearch);
                     if (state.resultStateSearch == ResultState.error) {
                       return Center(
-                        child: Text('Error: ${state.message}'),
+                        child: Text(state.message),
                       );
                     } else if (state.resultStateSearch == ResultState.noData) {
                       return Center(
