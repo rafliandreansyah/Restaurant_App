@@ -8,12 +8,12 @@ class Restaurant {
     required this.rating,
   });
 
-  String id;
-  String name;
-  String description;
-  String pictureId;
-  String city;
-  double rating;
+  late String id;
+  late String name;
+  late String description;
+  late String pictureId;
+  late String city;
+  late double rating;
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
         id: json["id"],
@@ -32,4 +32,22 @@ class Restaurant {
         "city": city,
         "rating": rating,
       };
+
+  Map<String, Object?> toMap() => {
+        "id": id,
+        "name": name,
+        "description": description,
+        "pictureId": pictureId,
+        "city": city,
+        "rating": rating,
+      };
+
+  Restaurant.fromMap(Map<String, Object?> map) {
+    id = map["id"] as String;
+    name = map["name"] as String;
+    description = map["description"] as String;
+    pictureId = map["pictureId"] as String;
+    city = map["city"] as String;
+    rating = map["rating"] as double;
+  }
 }
