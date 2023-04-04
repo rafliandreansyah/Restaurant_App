@@ -141,6 +141,12 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(
+          Icons.favorite_border,
+        ),
+      ),
     );
   }
 }
