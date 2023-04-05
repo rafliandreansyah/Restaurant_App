@@ -6,7 +6,7 @@ import 'package:restaurant_app/data/enum/result_state.dart';
 import '../data/model/restaurant.dart';
 
 class FavoriteProvider extends ChangeNotifier {
-  late final DatabaseHelper _databaseHelper;
+  final DatabaseHelper _databaseHelper;
 
   FavoriteProvider(this._databaseHelper);
 
@@ -16,7 +16,7 @@ class FavoriteProvider extends ChangeNotifier {
   String _message = '';
 
   ResultState _allFavoriteResult = ResultState.loading;
-  ResultState _checkIsFavorite = ResultState.loading;
+  ResultState _checkIsFavoriteResult = ResultState.loading;
   ResultState _deleteFavoriteResult = ResultState.loading;
   ResultState _favoriteRestaurantResult = ResultState.loading;
   ResultState _insertFavoriteResult = ResultState.loading;
@@ -25,7 +25,7 @@ class FavoriteProvider extends ChangeNotifier {
 
   ResultState get allFavoriteResult => _allFavoriteResult;
 
-  ResultState get checkIsFavorite => _checkIsFavorite;
+  ResultState get checkIsFavoriteResult => _checkIsFavoriteResult;
 
   ResultState get deleteFavoriteResult => _deleteFavoriteResult;
 
@@ -62,11 +62,6 @@ class FavoriteProvider extends ChangeNotifier {
 
   void getFavoriteById(String id) async {
     try {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        _favoriteRestaurantResult = ResultState.loading;
-        notifyListeners();
-      });
-
       _favoriteRestaurant = await _databaseHelper.getRestaurantById(id);
       if (_favoriteRestaurant == null) {
         _favoriteRestaurantResult = ResultState.noData;
@@ -80,31 +75,44 @@ class FavoriteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void checkFavorite(String id) async {
+    try {
+      var restaurant = await _databaseHelper.getRestaurantById(id);
+      if (restaurant == null) {
+        _checkIsFavoriteResult = ResultState.noData;
+        _isFavorite = false;
+      } else {
+        _checkIsFavoriteResult = ResultState.success;
+        _isFavorite = true;
+      }
+    } catch (e) {
+      _checkIsFavoriteResult = ResultState.error;
+      _message = 'Failed get favorite';
+      _isFavorite = false;
+    }
+    notifyListeners();
+  }
+
   void deleteFavorite(String id) async {
     try {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        _deleteFavoriteResult = ResultState.loading;
-      });
-
       await _databaseHelper.deleteFromFavorite(id);
       _deleteFavoriteResult = ResultState.success;
     } catch (e) {
       _deleteFavoriteResult = ResultState.error;
       _message = 'Failed remove from favorite';
+      print('Failed remove from favorite');
     }
     notifyListeners();
   }
 
   void insertFavorite(Restaurant restaurant) async {
     try {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        _insertFavoriteResult = ResultState.loading;
-      });
       await _databaseHelper.insertToFavorite(restaurant);
       _insertFavoriteResult = ResultState.success;
     } catch (e) {
       _insertFavoriteResult = ResultState.error;
       _message = 'Failed insert to favorite';
+      print('Failed insert to favorite');
     }
 
     notifyListeners();

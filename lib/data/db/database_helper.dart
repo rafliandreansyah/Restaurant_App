@@ -3,7 +3,7 @@ import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
-  static late DatabaseHelper? _instance;
+  static DatabaseHelper? _instance;
   static const String _tableName = 'favorite_restaurant';
 
   DatabaseHelper._internal() {

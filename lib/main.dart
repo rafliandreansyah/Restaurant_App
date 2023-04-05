@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/db/database_helper.dart';
+import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/provider/favorite_provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/screen/restaurant_detail_screen.dart';
@@ -37,9 +38,14 @@ class MyApp extends StatelessWidget {
         initialRoute: RestaurantsScreen.routeName,
         routes: {
           RestaurantsScreen.routeName: (context) => const RestaurantsScreen(),
-          RestaurantDetailScreen.routeName: (context) =>
-              const RestaurantDetailScreen(),
+
           SearchScreen.routeName: (context) => const SearchScreen(),
+        },
+        onGenerateRoute: (RouteSettings settings) {
+          if (settings.name == RestaurantDetailScreen.routeName) {
+            return MaterialPageRoute(builder: (ctx) => RestaurantDetailScreen(restaurant: settings.arguments as Restaurant));
+          }
+          return null;
         },
       ),
     );
