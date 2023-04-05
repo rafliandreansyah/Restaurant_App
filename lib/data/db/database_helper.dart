@@ -21,7 +21,14 @@ class DatabaseHelper {
       version: 1,
       onCreate: (db, version) async {
         await db.execute(
-            'CREATE TABLE $_tableName (id INTEGER PRIMARY KEY, name TEXT, description TEXT, pictureId TEXT, city TEXT, rating REAL)');
+          '''CREATE TABLE $_tableName (
+              id TEXT PRIMARY KEY, 
+              name TEXT, description TEXT, 
+              pictureId TEXT, 
+              city TEXT, 
+              rating REAL
+            )''',
+        );
       },
     );
     return db;
@@ -35,7 +42,7 @@ class DatabaseHelper {
     }
   }
 
-  Future<void> deleteFromFavorite(int id) async {
+  Future<void> deleteFromFavorite(String id) async {
     final db = await database;
     final deleteStatus =
         await db.delete(_tableName, where: 'id = ?', whereArgs: [id]);
@@ -44,7 +51,7 @@ class DatabaseHelper {
     }
   }
 
-  Future<Restaurant?> getRestaurantById(int id) async {
+  Future<Restaurant?> getRestaurantById(String id) async {
     final db = await database;
     final listOfRestaurant =
         await db.query(_tableName, where: 'id = ?', whereArgs: [id]);

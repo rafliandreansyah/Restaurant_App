@@ -6,8 +6,7 @@ import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/model/restaurant_detail.dart';
 
 import '../data/api/api_service.dart';
-
-enum ResultState { loading, success, error, noData }
+import '../data/enum/result_state.dart';
 
 class RestaurantProvider extends ChangeNotifier {
   final ApiService apiService;
