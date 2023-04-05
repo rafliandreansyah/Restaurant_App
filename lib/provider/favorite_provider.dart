@@ -97,6 +97,7 @@ class FavoriteProvider extends ChangeNotifier {
     try {
       await _databaseHelper.deleteFromFavorite(id);
       _deleteFavoriteResult = ResultState.success;
+      await getAllFavorite();
     } catch (e) {
       _deleteFavoriteResult = ResultState.error;
       _message = 'Failed remove from favorite';
@@ -109,6 +110,7 @@ class FavoriteProvider extends ChangeNotifier {
     try {
       await _databaseHelper.insertToFavorite(restaurant);
       _insertFavoriteResult = ResultState.success;
+      await getAllFavorite();
     } catch (e) {
       _insertFavoriteResult = ResultState.error;
       _message = 'Failed insert to favorite';

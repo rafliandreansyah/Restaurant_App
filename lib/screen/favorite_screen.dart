@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/enum/result_state.dart';
 import 'package:restaurant_app/provider/favorite_provider.dart';
+import 'package:restaurant_app/screen/restaurant_detail_screen.dart';
 import 'package:restaurant_app/widget/restaurant_card.dart';
 
 class FavoriteScreen extends StatefulWidget {
@@ -28,8 +29,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     favoriteState.message,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                      color: Colors.grey,
-                    ),
+                          color: Colors.grey,
+                        ),
                   ),
                 );
               } else if (favoriteState.allFavoriteResult ==
@@ -52,6 +53,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       top: 25,
                     ),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Favorite Restaurant',
@@ -80,7 +82,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                             return RestaurantCard(
                               restaurant:
                                   favoriteState.allFavoriteRestaurant[index],
-                              onClick: () {},
+                              onClick: () => Navigator.pushNamed(
+                                context,
+                                RestaurantDetailScreen.routeName,
+                                arguments:
+                                    favoriteState.allFavoriteRestaurant[index],
+                              ),
                             );
                           },
                         ),
