@@ -39,7 +39,7 @@ class FavoriteProvider extends ChangeNotifier {
 
   String get message => _message;
 
-  void getAllFavorite() async {
+  Future<void> getAllFavorite() async {
     try {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         _allFavoriteResult = ResultState.loading;
