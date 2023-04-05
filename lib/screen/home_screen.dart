@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/provider/bottom_navigation_provider.dart';
 import 'package:restaurant_app/screen/favorite_screen.dart';
 import 'package:restaurant_app/screen/restaurants_screen.dart';
+import 'package:restaurant_app/screen/setting_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -11,7 +12,8 @@ class HomeScreen extends StatelessWidget {
 
   final List<Widget> bottomNavWidget = [
     const RestaurantsScreen(),
-    const FavoriteScreen()
+    const FavoriteScreen(),
+    const SettingScreen(),
   ];
 
   @override
@@ -38,7 +40,14 @@ class HomeScreen extends StatelessWidget {
                       ? Icons.favorite
                       : Icons.favorite_border,
                 ),
-                label: 'Restaurant'),
+                label: 'Favorite'),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  bottomNavState.currentIndex == 2
+                      ? Icons.settings
+                      : Icons.settings_outlined,
+                ),
+                label: 'Setting'),
           ],
         ),
       );

@@ -45,8 +45,6 @@ class MyApp extends StatelessWidget {
         routes: {
           SearchScreen.routeName: (context) => const SearchScreen(),
           HomeScreen.routeName: (context) =>  HomeScreen(),
-          RestaurantsScreen.routeName: (context) => RestaurantsScreen(),
-          FavoriteScreen.routeName: (context) => FavoriteScreen(),
         },
         onGenerateRoute: (RouteSettings settings) {
           if (settings.name == RestaurantDetailScreen.routeName) {
