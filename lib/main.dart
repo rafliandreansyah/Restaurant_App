@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/db/database_helper.dart';
@@ -10,6 +11,9 @@ import 'package:restaurant_app/screen/home_screen.dart';
 import 'package:restaurant_app/screen/restaurant_detail_screen.dart';
 import 'package:restaurant_app/screen/search_screen.dart';
 import 'package:restaurant_app/style/theme.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    new FlutterLocalNotificationsPlugin();
 
 void main() {
   runApp(const MyApp());
@@ -42,11 +46,13 @@ class MyApp extends StatelessWidget {
         initialRoute: HomeScreen.routeName,
         routes: {
           SearchScreen.routeName: (context) => const SearchScreen(),
-          HomeScreen.routeName: (context) =>  HomeScreen(),
+          HomeScreen.routeName: (context) => HomeScreen(),
         },
         onGenerateRoute: (RouteSettings settings) {
           if (settings.name == RestaurantDetailScreen.routeName) {
-            return MaterialPageRoute(builder: (ctx) => RestaurantDetailScreen(restaurant: settings.arguments as Restaurant));
+            return MaterialPageRoute(
+                builder: (ctx) => RestaurantDetailScreen(
+                    restaurant: settings.arguments as Restaurant));
           }
           return null;
         },
