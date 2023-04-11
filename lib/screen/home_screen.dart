@@ -7,6 +7,8 @@ import 'package:restaurant_app/screen/restaurants_screen.dart';
 import 'package:restaurant_app/screen/setting_screen.dart';
 import 'package:restaurant_app/utils/notification_helper.dart';
 
+import '../provider/scheduling_provider.dart';
+
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
 
@@ -26,8 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    context.read<SchedulingProvider>().checkSchedule();
     _notificationHelper
         .configureSelectNotificationSubject(RestaurantDetailScreen.routeName);
   }

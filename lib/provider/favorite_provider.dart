@@ -40,24 +40,24 @@ class FavoriteProvider extends ChangeNotifier {
   String get message => _message;
 
   Future<void> getAllFavorite() async {
-    try {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        _allFavoriteResult = ResultState.loading;
-        notifyListeners();
-      });
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
+      _allFavoriteResult = ResultState.loading;
+      notifyListeners();
+      try {
 
-      _allFavoriteRestaurant = await _databaseHelper.getListRestaurants();
-      if (_allFavoriteRestaurant.isEmpty) {
-        _allFavoriteResult = ResultState.noData;
-      } else {
-        _allFavoriteResult = ResultState.success;
+        _allFavoriteRestaurant = await _databaseHelper.getListRestaurants();
+        if (_allFavoriteRestaurant.isEmpty) {
+          _allFavoriteResult = ResultState.noData;
+        } else {
+          _allFavoriteResult = ResultState.success;
+        }
+      } catch (e) {
+        _allFavoriteResult = ResultState.error;
+        _message = 'Failed get all favorite';
       }
-    } catch (e) {
-      _allFavoriteResult = ResultState.error;
-      _message = 'Failed get all favorite';
-    }
 
-    notifyListeners();
+      notifyListeners();
+    });
   }
 
   void getFavoriteById(String id) async {
@@ -97,26 +97,26 @@ class FavoriteProvider extends ChangeNotifier {
     try {
       await _databaseHelper.deleteFromFavorite(id);
       _deleteFavoriteResult = ResultState.success;
-      await getAllFavorite();
     } catch (e) {
       _deleteFavoriteResult = ResultState.error;
       _message = 'Failed remove from favorite';
       print('Failed remove from favorite');
     }
-    notifyListeners();
+
+    await getAllFavorite();
   }
 
   void insertFavorite(Restaurant restaurant) async {
     try {
       await _databaseHelper.insertToFavorite(restaurant);
       _insertFavoriteResult = ResultState.success;
-      await getAllFavorite();
+
     } catch (e) {
       _insertFavoriteResult = ResultState.error;
       _message = 'Failed insert to favorite';
       print('Failed insert to favorite');
     }
 
-    notifyListeners();
+    await getAllFavorite();
   }
 }

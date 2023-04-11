@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/widget/rating.dart';
 
-import '../style/theme.dart';
-
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
   final Function() onClick;

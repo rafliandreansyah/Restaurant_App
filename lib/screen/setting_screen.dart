@@ -56,7 +56,7 @@ class SettingScreen extends StatelessWidget {
                         if (Platform.isIOS) {
                           customDialog(context);
                         } else {
-                          state.scheduledRestaurant(value);
+                          await state.scheduledRestaurant(value);
                         }
                       },
                     );

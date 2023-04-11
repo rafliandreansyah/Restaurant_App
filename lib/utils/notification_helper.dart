@@ -107,6 +107,7 @@ class NotificationHelper {
       importance: Importance.max,
       priority: Priority.high,
       ticker: 'ticker',
+      styleInformation: DefaultStyleInformation(true, true),
     );
 
     const iOSPlatformChannel = DarwinNotificationDetails();

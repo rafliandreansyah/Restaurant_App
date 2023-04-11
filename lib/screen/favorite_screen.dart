@@ -25,6 +25,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           builder: (context, snapshot) {
             return Consumer<FavoriteProvider>(
                 builder: (context, favoriteState, _) {
+                  print(favoriteState.allFavoriteResult);
               if (favoriteState.allFavoriteResult == ResultState.error) {
                 return Center(
                   child: Text(
