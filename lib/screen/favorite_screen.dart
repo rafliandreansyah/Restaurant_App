@@ -5,6 +5,8 @@ import 'package:restaurant_app/provider/favorite_provider.dart';
 import 'package:restaurant_app/screen/restaurant_detail_screen.dart';
 import 'package:restaurant_app/widget/restaurant_card.dart';
 
+import '../utils/navigation.dart';
+
 class FavoriteScreen extends StatefulWidget {
   static const String routeName = '/favorite';
 
@@ -82,11 +84,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                             return RestaurantCard(
                               restaurant:
                                   favoriteState.allFavoriteRestaurant[index],
-                              onClick: () => Navigator.pushNamed(
-                                context,
+                              onClick: () => Navigation.intentWithData(
                                 RestaurantDetailScreen.routeName,
-                                arguments:
-                                    favoriteState.allFavoriteRestaurant[index],
+                                favoriteState.allFavoriteRestaurant[index],
                               ),
                             );
                           },

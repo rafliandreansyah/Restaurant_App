@@ -2,19 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/provider/bottom_navigation_provider.dart';
 import 'package:restaurant_app/screen/favorite_screen.dart';
+import 'package:restaurant_app/screen/restaurant_detail_screen.dart';
 import 'package:restaurant_app/screen/restaurants_screen.dart';
 import 'package:restaurant_app/screen/setting_screen.dart';
+import 'package:restaurant_app/utils/notification_helper.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
 
   static const String routeName = '/home';
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
   final List<Widget> bottomNavWidget = [
     const RestaurantsScreen(),
     const FavoriteScreen(),
     const SettingScreen(),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _notificationHelper
+        .configureSelectNotificationSubject(RestaurantDetailScreen.routeName);
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

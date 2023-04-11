@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/utils/navigation.dart';
 import 'package:restaurant_app/utils/received_notification.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -83,13 +84,13 @@ class NotificationHelper {
                     : null,
                 actions: [
                   CupertinoDialogAction(
-                    child: const Text('Ok'),
                     isDefaultAction: true,
                     onPressed: () async {
-                      Navigator.of(context, rootNavigator: true).pop();
+                      Navigation.back();
                       await Navigator.pushNamed(context, route,
                           arguments: receivedNotification);
                     },
+                    child: const Text('Ok'),
                   )
                 ],
               ));
@@ -125,5 +126,12 @@ class NotificationHelper {
       platformSpecificChannel,
       payload: jsonEncode(restaurant.toJson()),
     );
+  }
+
+  void configureSelectNotificationSubject(String route) {
+    selectNotificationSubject.stream.listen((payload) async {
+      var data = Restaurant.fromJson(jsonDecode(payload!));
+      Navigation.intentWithData(route, data);
+    });
   }
 }

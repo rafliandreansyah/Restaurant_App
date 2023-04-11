@@ -6,6 +6,7 @@ import 'package:restaurant_app/screen/search_screen.dart';
 import 'package:restaurant_app/widget/restaurant_card.dart';
 
 import '../data/enum/result_state.dart';
+import '../utils/navigation.dart';
 
 class RestaurantsScreen extends StatelessWidget {
   const RestaurantsScreen({Key? key}) : super(key: key);
@@ -47,7 +48,7 @@ class RestaurantsScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           IconButton(
-                            onPressed: () => Navigator.of(context).pushNamed(
+                            onPressed: () => Navigation.intent(
                               SearchScreen.routeName,
                             ),
                             icon: const Icon(Icons.search),
@@ -79,10 +80,9 @@ class RestaurantsScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return RestaurantCard(
                             restaurant: state.listRestaurant[index],
-                            onClick: () => Navigator.pushNamed(
-                              context,
+                            onClick: () => Navigation.intentWithData(
                               RestaurantDetailScreen.routeName,
-                              arguments: state.listRestaurant[index],
+                              state.listRestaurant[index],
                             ),
                           );
                         },

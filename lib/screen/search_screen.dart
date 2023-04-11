@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/screen/restaurant_detail_screen.dart';
+import 'package:restaurant_app/utils/navigation.dart';
 import 'package:restaurant_app/widget/restaurant_card.dart';
 
 import '../data/enum/result_state.dart';
 
 class SearchScreen extends StatefulWidget {
   static const routeName = '/search';
+
   const SearchScreen({super.key});
 
   @override
@@ -84,10 +86,9 @@ class _SearchScreenState extends State<SearchScreen> {
                           return RestaurantCard(
                               restaurant: state.searchRestaurantData[index],
                               onClick: () {
-                                Navigator.pushNamed(
-                                  context,
+                                Navigation.intentWithData(
                                   RestaurantDetailScreen.routeName,
-                                  arguments: state.listRestaurant[index],
+                                  state.searchRestaurantData[index],
                                 );
                               });
                         },

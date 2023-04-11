@@ -1,4 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/provider/scheduling_provider.dart';
+import 'package:restaurant_app/widget/custom_dialog.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -43,7 +48,20 @@ class SettingScreen extends StatelessWidget {
                         ),
                   ),
                 ),
-                Switch(value: true, onChanged: (value) {}),
+                Consumer<SchedulingProvider>(
+                  builder: (context, state, _) {
+                    return Switch(
+                      value: state.isScheduled,
+                      onChanged: (value) async {
+                        if (Platform.isIOS) {
+                          customDialog(context);
+                        } else {
+                          state.scheduledRestaurant(value);
+                        }
+                      },
+                    );
+                  },
+                ),
               ],
             )
           ],
