@@ -79,6 +79,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                           height: 20,
                         ),
                         ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: favoriteState.allFavoriteRestaurant.length,
                           itemBuilder: (ctx, index) {

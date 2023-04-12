@@ -208,16 +208,20 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     return Consumer2<RestaurantProvider, FavoriteProvider>(
       builder: (context, restaurantState, favoriteState, _) {
         if (restaurantState.resultStateDetailRestaurant == ResultState.error) {
-          return Center(
-            child: Text(restaurantState.message),
+          return Scaffold(
+            body: Center(
+              child: Text(restaurantState.message),
+            ),
           );
         } else if (restaurantState.resultStateDetailRestaurant ==
             ResultState.success) {
           favoriteErrorMessage(favoriteState, context);
           return detailRestaurantWidget(restaurantState, favoriteState);
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         }
       },
